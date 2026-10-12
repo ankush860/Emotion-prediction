@@ -1,11 +1,80 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Moodlens · Emotion Detection</title>
+  <meta name="description" content="Detect emotion in text with a BiGRU deep learning model." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/static/style.css" />
 </head>
-<body>
-    <h1>App is working </h1>
+<body data-emotion="neutral">
+  <canvas id="bg"></canvas>
+  <div class="aurora" aria-hidden="true"><span></span><span></span><span></span></div>
+  <div class="cursor-glow" id="cursorGlow" aria-hidden="true"></div>
+
+  <header class="nav">
+    <div class="brand"><span class="logo-dot"></span>Moodlens</div>
+    <div class="status" id="status" title="Server health">
+      <span class="pulse"></span><span id="statusText">Checking…</span>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="hero">
+      <p class="eyebrow">BiGRU · Deep Learning · NLP</p>
+      <h1>Read the <span class="grad">feeling</span><br />behind the words.</h1>
+      <p class="sub">Type a sentence and watch the model break it down into six emotions, in real time.</p>
+    </section>
+
+    <section class="card tilt" id="inputCard">
+      <div class="field">
+        <textarea id="text" maxlength="2000" rows="4" placeholder="How are you feeling today?"></textarea>
+        <div class="field-foot">
+          <div class="chips" id="chips"></div>
+          <span class="count"><span id="count">0</span>/2000</span>
+        </div>
+      </div>
+      <button id="go" class="btn" disabled>
+        <span class="btn-label">Analyze emotion</span>
+        <span class="spinner" aria-hidden="true"></span>
+        <kbd>Ctrl ⏎</kbd>
+      </button>
+      <p class="error" id="error" role="alert"></p>
+    </section>
+
+    <section class="card result" id="result" hidden>
+      <div class="result-top">
+        <div class="emoji-wrap">
+          <svg class="ring" viewBox="0 0 120 120">
+            <circle class="ring-bg" cx="60" cy="60" r="52" />
+            <circle class="ring-fg" id="ringFg" cx="60" cy="60" r="52" />
+          </svg>
+          <div class="emoji" id="emoji">😄</div>
+        </div>
+        <div class="result-meta">
+          <p class="label">Detected emotion</p>
+          <h2 id="emotion">Joy</h2>
+          <p class="conf"><span id="confNum">0</span>% confident</p>
+        </div>
+      </div>
+      <p class="quote" id="quote"></p>
+      <div class="bars" id="bars"></div>
+    </section>
+
+    <section class="history" id="historyWrap" hidden>
+      <div class="history-head">
+        <h3>Recent</h3>
+        <button class="link" id="clearHistory">Clear</button>
+      </div>
+      <ul id="history"></ul>
+    </section>
+  </main>
+
+  <footer class="foot">Built with FastAPI &amp; TensorFlow · <a href="/docs">API docs</a></footer>
+
+  <script src="/static/script.js"></script>
 </body>
 </html>
